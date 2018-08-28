@@ -7,7 +7,7 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
 
-  has_many :projects, inverse_of: :owner
+  has_many :projects
   has_many :notes
 
   before_save :ensure_authentication_token
