@@ -2,19 +2,18 @@ require 'rails_helper'
 
 RSpec.describe Project, type: :model do
   it "does not allow duplicate project names per user" do
-    user = User.create(
-      first_name: "Joe",
-      last_name:  "Tester",
-      email:      "joetester@example.com",
-      password:   "dottle-nouveau-pavilion-tights-furze",
+    user = FactoryBot.create(:user, :joe)
+
+    FactoryBot.create(
+      :project,
+      name: "Test Project",
+      owner: user
     )
 
-    user.projects.create(
+    new_project = FactoryBot.build(
+      :project,
       name: "Test Project",
-    )
-
-    new_project = user.projects.build(
-      name: "Test Project",
+      owner: user
     )
 
     new_project.valid?
@@ -22,26 +21,20 @@ RSpec.describe Project, type: :model do
   end
 
   it "allows two users to share a project name" do
-    user = User.create(
-      first_name: "Joe",
-      last_name:  "Tester",
-      email:      "joetester@example.com",
-      password:   "dottle-nouveau-pavilion-tights-furze",
-    )
+    user = FactoryBot.create(:user, :joe)
 
-    user.projects.create(
+    FactoryBot.create(
+      :project,
       name: "Test Project",
+      owner: user
     )
 
-    other_user = User.create(
-      first_name: "Jane",
-      last_name:  "Tester",
-      email:      "janetester@example.com",
-      password:   "dottle-nouveau-pavilion-tights-furze",
-    )
+    other_user = FactoryBot.create(:user, :jane)
 
-    other_project = other_user.projects.build(
+    other_project = FactoryBot.build(
+      :project,
       name: "Test Project",
+      owner: other_user
     )
 
     expect(other_project).to be_valid
