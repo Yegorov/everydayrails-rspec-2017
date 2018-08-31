@@ -59,4 +59,11 @@ RSpec.configure do |config|
   # Use Devise helpers in tests
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include RequestSpecHelper, type: :request
+  config.include Warden::Test::Helpers
 end
+
+$VERBOSE=nil
+
+# Rails.application.configure do
+#   config.active_support.deprecation = :stderr # :log, :stderr, :raise, :silence or :notify
+# end
